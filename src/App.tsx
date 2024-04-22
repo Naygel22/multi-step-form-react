@@ -1,5 +1,6 @@
 import { SideBar } from "./components/SideBar"
 import { PersonalInfo } from "./pages/PersonalInfo"
+import { SelectPlan } from "./pages/SelectPlan"
 
 
 function App() {
@@ -8,7 +9,8 @@ function App() {
     <>
       <div className="app">
         <SideBar />
-        <PersonalInfo />
+        {/* <PersonalInfo /> */}
+        <SelectPlan />
       </div>
 
     </>
