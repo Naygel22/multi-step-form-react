@@ -5,6 +5,7 @@ import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { PersonalInfoPage } from './pages/PersonalInfoPage.tsx'
 import { SelectPlanPage } from './pages/SelectPlanPage.tsx'
+import { PickAddOnsPage } from './pages/PickAddOnsPage.tsx'
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
   {
     path: '/selectplan',
     element: <SelectPlanPage />
+  },
+  {
+    path: '/addons',
+    element: <PickAddOnsPage />
   }
 ]);
 
