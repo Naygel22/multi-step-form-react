@@ -7,11 +7,7 @@ function App() {
 
   return (
     <>
-      <div className="app">
-        <SideBar />
-        {/* <PersonalInfo /> */}
-        <SelectPlan />
-      </div>
+
 
     </>
   )
