@@ -4,6 +4,7 @@ import { Plan } from "../components/Plan"
 import { SectionHeader } from "../components/SectionHeader"
 import { ToggleSwitch } from "../components/ToggleSwitch"
 import { Button } from "../components/Button"
+import { Step } from "../App"
 
 const avaiablePlans = [
   {
@@ -35,7 +36,11 @@ const avaiablePlans = [
   },
 ]
 
-export const SelectPlan = () => {
+type SelectPlanProps = {
+  goToPreviousStep?: (step: Step) => void
+}
+
+export const SelectPlan = ({ goToPreviousStep }: SelectPlanProps) => {
   const [isChecked, setIsChecked] = useState(true);
 
   function handleToggleSwitch() {
@@ -61,6 +66,7 @@ export const SelectPlan = () => {
 
       <div className="buttonsArea">
         <Button className="goBackButton" name="Go Back" />
+        <button onClick={() => goToPreviousStep?.("PersonalInfo")}>Go back</button>
         <Button className="nextStepButton" name="Next Step" />
       </div>
     </div>

@@ -3,20 +3,28 @@ import { PersonalInfoValues, personalInfoSchema } from "../validators/validators
 import { TextInput } from "../components/forms/TextInput";
 import { Button } from "../components/Button";
 import { SectionHeader } from "../components/SectionHeader";
-import { Link, useNavigate } from "react-router-dom";
+import { Step } from "../App";
 
-export const PersonalInfo = () => {
-  const navigate = useNavigate();
+type PersonalInfoProps = {
+  setNextStep: (nextStep: Step) => void;
+  setUserData: (userData: PersonalInfoValues) => void
+  initialUserData: PersonalInfoValues | undefined
+}
+
+export const PersonalInfo = ({ setNextStep, setUserData, initialUserData }: PersonalInfoProps) => {
+
+
   const formik = useFormik<PersonalInfoValues>({
     initialValues: {
-      name: "",
-      email: "",
-      phoneNumber: ""
+      name: initialUserData?.name || "",
+      email: initialUserData?.email || "",
+      phoneNumber: initialUserData?.phoneNumber || ""
     },
     validationSchema: personalInfoSchema,
     onSubmit: (values) => {
       console.log(values, null, 2);
-      navigate('/selectplan')
+      setUserData(values)
+      setNextStep("Plan")
     }
   });
 
@@ -33,7 +41,7 @@ export const PersonalInfo = () => {
         <TextInput formik={formik} accessor='phoneNumber' label="Phone Number" />
       </div>
       {/* <Button className="nextStepButton" name="Next Step" /> */}
-      <button className="nextStepButton">Next Step</button>
+      <button type="submit" className="nextStepButton">Next Step</button>
     </form>
   )
 }

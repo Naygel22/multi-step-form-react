@@ -1,6 +1,7 @@
 import TextField from '@mui/material/TextField';
 import { FormikProps } from 'formik';
 
+
 export const TextInput = <FormValues,>({ formik, accessor, label }: {
   formik: FormikProps<FormValues>,
   accessor: keyof FormValues & string
@@ -20,6 +21,18 @@ export const TextInput = <FormValues,>({ formik, accessor, label }: {
       onChange={formik.handleChange}
       onBlur={formik.handleBlur}
       value={formik.values[accessor]}
+      sx={{
+        marginBottom: '20px',
+
+        "& label.Mui-focused": {
+          color: "hsl(213, 96%, 18%)"
+        },
+        "& .MuiOutlinedInput-root": {
+          "&.Mui-focused fieldset": {
+            borderColor: "hsl(213, 96%, 18%)"
+          }
+        }
+      }}
     />
   );
 }
