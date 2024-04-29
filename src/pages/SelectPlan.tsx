@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Plan } from '../components/Plan'
+import { Plan, PlanProps } from '../components/Plan'
 import { SectionHeader } from '../components/SectionHeader'
 import { ToggleSwitch } from '../components/ToggleSwitch'
 import { Button } from '../components/Button'
@@ -36,14 +36,27 @@ const avaiablePlans = [
 ]
 
 type SelectPlanProps = {
-  goToPreviousStep?: (step: Step) => void
+  goToPreviousStep?: (step: Step) => void,
+  goToNextStep?: (step: Step) => void,
+  onPlanSelect: (plan: ChosenPlanProps) => void
 }
 
-export const SelectPlan = ({ goToPreviousStep }: SelectPlanProps) => {
+export type ChosenPlanProps = {
+  title: string,
+  price: string
+}
+
+export const SelectPlan = ({ goToPreviousStep, goToNextStep, onPlanSelect }: SelectPlanProps) => {
   const [isChecked, setIsChecked] = useState(true)
+  const [isSelected, setIsSelected] = useState(false)
 
   function handleToggleSwitch() {
     setIsChecked((prev) => !prev)
+  }
+
+  function handlePlanSelect(plan: ChosenPlanProps) {
+    onPlanSelect(plan);
+    setIsSelected(true);
   }
 
   return (
@@ -55,6 +68,7 @@ export const SelectPlan = ({ goToPreviousStep }: SelectPlanProps) => {
       <div className="items">
         {avaiablePlans.map((plan) => (
           <Plan
+            key={plan.id}
             title={plan.title}
             icon={plan.icon}
             price={
@@ -63,6 +77,7 @@ export const SelectPlan = ({ goToPreviousStep }: SelectPlanProps) => {
                 : `$${plan.price.yearly}/yr`
             }
             bonus={!isChecked ? '2 months free' : ''}
+            onSelect={() => handlePlanSelect({ title: plan.title, price: isChecked ? `$${plan.price.monthly}/mo` : `$${plan.price.yearly}/yr` })}
           />
         ))}
       </div>
@@ -75,7 +90,7 @@ export const SelectPlan = ({ goToPreviousStep }: SelectPlanProps) => {
         >
           Go back
         </Button>
-        <Button>Next Step</Button>
+        <Button onClick={() => isSelected && goToNextStep?.('Addons')}>Next Step</Button>
       </div>
     </div>
   )

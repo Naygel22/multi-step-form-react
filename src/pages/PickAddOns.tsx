@@ -1,5 +1,7 @@
-import { AddOn } from "./AddOn";
-import { SectionHeader } from "./SectionHeader";
+import { Button } from "../components/Button";
+import { AddOn } from "../components/AddOn";
+import { SectionHeader } from "../components/SectionHeader";
+import { Step } from "../App";
 
 const availableAddons = [
   {
@@ -31,7 +33,12 @@ const availableAddons = [
   }
 ];
 
-export const PickAddOns = () => {
+type PickAddOnsProps = {
+  goToPreviousStep?: (step: Step) => void,
+  goToNextStep?: (step: Step) => void
+}
+
+export const PickAddOns = ({ goToPreviousStep, goToNextStep }: PickAddOnsProps) => {
   return (
     <div className="stepPage3">
       <SectionHeader
@@ -48,6 +55,15 @@ export const PickAddOns = () => {
             price={`$${addon.price.monthly}/mo`}
           />
         ))}
+      </div>
+
+      <div className="buttonsArea">
+        <Button
+          className="goBackButton"
+          onClick={() => goToPreviousStep?.('Plan')}
+        >
+          Go back
+        </Button>
       </div>
     </div>
   );

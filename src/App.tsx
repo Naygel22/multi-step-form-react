@@ -1,44 +1,40 @@
-import { useState } from "react"
-import { SideBar } from "./components/SideBar"
-import { PersonalInfo } from "./pages/PersonalInfo"
-import { PersonalInfoPage } from "./pages/PersonalInfoPage"
-import { SelectPlan } from "./pages/SelectPlan"
-import { PickAddOns } from "./components/PickAddOns"
-import { Button } from "./components/Button"
-import { PersonalInfoValues } from "./validators/validators"
+// App.tsx
+import { useState } from "react";
+import { SideBar } from "./components/SideBar";
+import { PersonalInfo } from "./pages/PersonalInfo";
+import { ChosenPlanProps, SelectPlan } from "./pages/SelectPlan";
+import { PickAddOns } from "./pages/PickAddOns";
+import { PersonalInfoValues } from "./validators/validators";
+import { PlanProps } from "./components/Plan";
 
-
-export type Step = 'PersonalInfo' | 'Plan' | 'Addons' | "Summary"
+export type Step = 'PersonalInfo' | 'Plan' | 'Addons' | "Summary";
 
 function App() {
-  const [step, setStep] = useState<Step>('PersonalInfo')
-
-  const [userData, setUserData] = useState<PersonalInfoValues | undefined>()
-  // state do select planow i do reszty
-  // state do plan variant
-
+  const [step, setStep] = useState<Step>('PersonalInfo');
+  const [userData, setUserData] = useState<PersonalInfoValues | undefined>();
+  const [selectedPlan, setSelectedPlan] = useState<ChosenPlanProps | undefined>();
 
   const onStepChange = (step: Step) => {
-    setStep(step)
-  }
+    setStep(step);
+  };
 
   const onUserDataChange = (userData: PersonalInfoValues) => {
-    setUserData(userData)
-  }
+    setUserData(userData);
+  };
 
+  const onPlanSelect = (plan: PlanProps) => {
+    setSelectedPlan(plan);
+    console.log(selectedPlan)
+  };
 
   return (
     <div className="app">
       <SideBar />
-      {/* odpowiedni komponent w zaleznosci od stepu */}
       {step === 'PersonalInfo' && <PersonalInfo initialUserData={userData} setNextStep={onStepChange} setUserData={onUserDataChange} />}
-      {step === 'Plan' && <SelectPlan goToPreviousStep={onStepChange} />}
-      {step === 'Addons' && <PickAddOns />}
-
+      {step === 'Plan' && <SelectPlan goToPreviousStep={onStepChange} goToNextStep={onStepChange} onPlanSelect={onPlanSelect} />}
+      {step === 'Addons' && <PickAddOns goToPreviousStep={onStepChange} />}
     </div>
-
-
-  )
+  );
 }
 
-export default App
+export default App;
