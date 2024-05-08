@@ -3,42 +3,16 @@ import { Plan, PlanProps } from '../components/Plan'
 import { SectionHeader } from '../components/SectionHeader'
 import { ToggleSwitch } from '../components/ToggleSwitch'
 import { Button } from '../components/Button'
-import { Step } from '../App'
+import { Step, SinglePlanType } from '../App'
 
-const avaiablePlans = [
-  {
-    id: 'Arcade',
-    title: 'Arcade',
-    icon: 'src/assets/images/icon-arcade.svg',
-    price: {
-      monthly: 9,
-      yearly: 90
-    }
-  },
-  {
-    id: 'Advanced',
-    title: 'Advanced',
-    icon: 'src/assets/images/icon-advanced.svg',
-    price: {
-      monthly: 12,
-      yearly: 120
-    }
-  },
-  {
-    id: 'Pro',
-    title: 'Pro',
-    icon: 'src/assets/images/icon-pro.svg',
-    price: {
-      monthly: 15,
-      yearly: 150
-    }
-  }
-]
+
 
 type SelectPlanProps = {
   goToPreviousStep?: (step: Step) => void,
   goToNextStep?: (step: Step) => void,
-  onPlanSelect: (plan: ChosenPlanProps) => void
+  onPlanSelect: (planId: SinglePlanType['id']) => void
+  avaiablePlans: SinglePlanType[]
+  currentPlanId: SinglePlanType['id'] | undefined
 }
 
 export type ChosenPlanProps = {
@@ -46,16 +20,19 @@ export type ChosenPlanProps = {
   price: string
 }
 
-export const SelectPlan = ({ goToPreviousStep, goToNextStep, onPlanSelect }: SelectPlanProps) => {
+export const SelectPlan = ({ goToPreviousStep, goToNextStep, onPlanSelect, avaiablePlans, currentPlanId }: SelectPlanProps) => {
   const [isChecked, setIsChecked] = useState(true)
   const [isSelected, setIsSelected] = useState(false)
 
-  function handleToggleSwitch() {
+
+  function handleToggleSwitch(plan: ChosenPlanProps) {
     setIsChecked((prev) => !prev)
+    //onPlanSelect(plan);
+    console.log(plan)
   }
 
-  function handlePlanSelect(plan: ChosenPlanProps) {
-    onPlanSelect(plan);
+  function handlePlanSelect(planId: SinglePlanType['id']) {
+    onPlanSelect(planId);
     setIsSelected(true);
   }
 
@@ -71,13 +48,14 @@ export const SelectPlan = ({ goToPreviousStep, goToNextStep, onPlanSelect }: Sel
             key={plan.id}
             title={plan.title}
             icon={plan.icon}
+            className={currentPlanId === plan.id ? 'selectedItem' : ''}
             price={
               isChecked
                 ? `$${plan.price.monthly}/mo`
                 : `$${plan.price.yearly}/yr`
             }
             bonus={!isChecked ? '2 months free' : ''}
-            onSelect={() => handlePlanSelect({ title: plan.title, price: isChecked ? `$${plan.price.monthly}/mo` : `$${plan.price.yearly}/yr` })}
+            onSelect={() => handlePlanSelect(plan.id)}
           />
         ))}
       </div>
