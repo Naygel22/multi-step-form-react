@@ -13,6 +13,7 @@ type SelectPlanProps = {
   onPlanSelect: (planId: SinglePlanType['id']) => void
   avaiablePlans: SinglePlanType[]
   currentPlanId: SinglePlanType['id'] | undefined
+  selectVariant: (variant: keyof SinglePlanType['price']) => void
 }
 
 export type ChosenPlanProps = {
@@ -20,15 +21,16 @@ export type ChosenPlanProps = {
   price: string
 }
 
-export const SelectPlan = ({ goToPreviousStep, goToNextStep, onPlanSelect, avaiablePlans, currentPlanId }: SelectPlanProps) => {
+export const SelectPlan = ({ goToPreviousStep, goToNextStep, onPlanSelect, avaiablePlans, currentPlanId, selectVariant }: SelectPlanProps) => {
   const [isChecked, setIsChecked] = useState(true)
   const [isSelected, setIsSelected] = useState(false)
 
 
-  function handleToggleSwitch(plan: ChosenPlanProps) {
-    setIsChecked((prev) => !prev)
-    //onPlanSelect(plan);
-    console.log(plan)
+  function handleToggleSwitch() {
+    setIsChecked(prev => !prev);
+    const newVariant = isChecked ? 'yearly' : 'monthly';
+    selectVariant(newVariant);
+    console.log(newVariant)
   }
 
   function handlePlanSelect(planId: SinglePlanType['id']) {

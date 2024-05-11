@@ -1,44 +1,25 @@
 import { Button } from "../components/Button";
 import { AddOn } from "../components/AddOn";
 import { SectionHeader } from "../components/SectionHeader";
-import { Step } from "../App";
-
-const availableAddons = [
-  {
-    id: "Online Service",
-    title: "Online Service",
-    description: "Access to multiplayer games",
-    price: {
-      monthly: 1,
-      yearly: 10
-    }
-  },
-  {
-    id: "Larger storage",
-    title: "Larger storage",
-    description: "Extra 1TB of cloud space",
-    price: {
-      monthly: 2,
-      yearly: 20
-    }
-  },
-  {
-    id: "Customizable profile",
-    title: "Customizable profile",
-    description: "Custom theme on your profile",
-    price: {
-      monthly: 2,
-      yearly: 20
-    }
-  }
-];
+import { SingleAddonType, SinglePlanType, Step } from "../App";
 
 type PickAddOnsProps = {
   goToPreviousStep?: (step: Step) => void,
-  goToNextStep?: (step: Step) => void
+  goToNextStep?: (step: Step) => void,
+  availableAddons: SingleAddonType[]
+  getVariant: keyof SinglePlanType['price']
+  selectedAddonsId: Array<string> | undefined,
+  currentAddonId: SingleAddonType['id'] | undefined
 }
 
-export const PickAddOns = ({ goToPreviousStep, goToNextStep }: PickAddOnsProps) => {
+export const PickAddOns = ({ goToPreviousStep, goToNextStep, availableAddons, getVariant, selectedAddonsId, currentAddonId }: PickAddOnsProps) => {
+
+  function handleAddonSelect(addonId: string) {
+    selectedAddonsId?.push(addonId)
+    console.log(selectedAddonsId)
+  }
+
+
   return (
     <div className="stepPage3">
       <SectionHeader
@@ -52,7 +33,9 @@ export const PickAddOns = ({ goToPreviousStep, goToNextStep }: PickAddOnsProps) 
             key={addon.id}
             title={addon.title}
             info={addon.description}
-            price={`$${addon.price.monthly}/mo`}
+            price={getVariant === 'monthly' ? `$${addon.price.monthly}/mo` : `$${addon.price.yearly}/yr`}
+            onSelect={() => handleAddonSelect(addon.id)}
+            className={currentAddonId === addon.id ? 'selectedAddon' : ''}
           />
         ))}
       </div>
@@ -64,6 +47,8 @@ export const PickAddOns = ({ goToPreviousStep, goToNextStep }: PickAddOnsProps) 
         >
           Go back
         </Button>
+
+        <Button onClick={() => goToNextStep?.('Summary')}>Next Step</Button>
       </div>
     </div>
   );
