@@ -1,11 +1,11 @@
 import { Button } from "../components/Button";
 import { AddOn } from "../components/AddOn";
 import { SectionHeader } from "../components/SectionHeader";
-import { SingleAddonType, SinglePlanType, Step } from "../App";
+import { SingleAddonType, SinglePlanType, StepType } from "../App";
 
 type PickAddOnsProps = {
-  goToPreviousStep?: (step: Step) => void,
-  goToNextStep?: (step: Step) => void,
+  goToPreviousStep?: (step: StepType) => void,
+  goToNextStep?: (step: StepType) => void,
   availableAddons: SingleAddonType[]
   getVariant: keyof SinglePlanType['price']
   selectedAddonsId: Array<string> | undefined,

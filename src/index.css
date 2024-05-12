@@ -440,10 +440,18 @@ input:checked+.slider:before {
   font-weight: 700;
 }
 
-#confirmButton {
+.confirmButton {
   background-color: hsl(243, 100%, 62%);
+  height: 45px;
+  width: 115px;
+  border-radius: 7px;
+  border: none;
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
 }
 
-#confirmButton:hover {
+.confirmButton:hover {
   background-color: hsl(228, 100%, 84%);
 }

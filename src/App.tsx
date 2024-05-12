@@ -7,6 +7,8 @@ import { PickAddOns } from "./pages/PickAddOns";
 import { PersonalInfoValues } from "./validators/validators";
 import { PlanProps } from "./components/Plan";
 import { ALL_AVAIABLE_ADDONS, ALL_AVAIABLE_PLANS } from "./data";
+import { Summary } from "./pages/Summary";
+import { EndScreen } from "./pages/EndScreen";
 
 export type SinglePlanType = {
   id: string,
@@ -27,10 +29,10 @@ type PlanPrice = {
   yearly: number
 }
 
-export type Step = 'PersonalInfo' | 'Plan' | 'Addons' | "Summary";
+export type StepType = 'PersonalInfo' | 'Plan' | 'Addons' | "Summary" | "EndScreen";
 
 function App() {
-  const [step, setStep] = useState<Step>('PersonalInfo');
+  const [step, setStep] = useState<StepType>('PersonalInfo');
   const [userData, setUserData] = useState<PersonalInfoValues | undefined>();
   const [selectedPlanId, setSelectedPlanId] = useState<SinglePlanType['id'] | undefined>();
   const [selectedVariant, setSelectedVariant] = useState<keyof SinglePlanType['price']>('monthly')
@@ -39,7 +41,7 @@ function App() {
   const [avaiablePlans, setAvaiablePlans] = useState<SinglePlanType[]>(ALL_AVAIABLE_PLANS)
   const [availableAddons, setAvailableAddons] = useState<SingleAddonType[]>(ALL_AVAIABLE_ADDONS)
 
-  const onStepChange = (step: Step) => {
+  const onStepChange = (step: StepType) => {
     setStep(step);
   };
 
@@ -57,9 +59,28 @@ function App() {
   return (
     <div className="app">
       <SideBar />
-      {step === 'PersonalInfo' && <PersonalInfo initialUserData={userData} setNextStep={onStepChange} setUserData={onUserDataChange} />}
-      {step === 'Plan' && <SelectPlan currentPlanId={selectedPlanId} goToPreviousStep={onStepChange} goToNextStep={onStepChange} onPlanSelect={onPlanSelect} avaiablePlans={avaiablePlans} selectVariant={setSelectedVariant} />}
-      {step === 'Addons' && <PickAddOns goToPreviousStep={onStepChange} availableAddons={availableAddons} getVariant={selectedVariant} selectedAddonsId={selectedAddonsId} currentAddonId={selectedAddonsId} />}
+      {step === 'PersonalInfo' && <PersonalInfo
+        initialUserData={userData}
+        setNextStep={onStepChange}
+        setUserData={onUserDataChange} />}
+      {step === 'Plan' && <SelectPlan
+        currentPlanId={selectedPlanId}
+        goToPreviousStep={onStepChange}
+        goToNextStep={onStepChange}
+        onPlanSelect={onPlanSelect}
+        avaiablePlans={avaiablePlans}
+        selectVariant={setSelectedVariant} />}
+      {step === 'Addons' && <PickAddOns
+        goToPreviousStep={onStepChange}
+        goToNextStep={onStepChange}
+        availableAddons={availableAddons}
+        getVariant={selectedVariant}
+        selectedAddonsId={selectedAddonsId}
+        currentAddonId={selectedAddonsId} />}
+      {step === 'Summary' && <Summary
+        goToPreviousStep={onStepChange}
+        goToNextStep={onStepChange} />}
+      {step === 'EndScreen' && <EndScreen />}
     </div>
   );
 }

@@ -3,13 +3,13 @@ import { Plan, PlanProps } from '../components/Plan'
 import { SectionHeader } from '../components/SectionHeader'
 import { ToggleSwitch } from '../components/ToggleSwitch'
 import { Button } from '../components/Button'
-import { Step, SinglePlanType } from '../App'
+import { StepType, SinglePlanType } from '../App'
 
 
 
 type SelectPlanProps = {
-  goToPreviousStep?: (step: Step) => void,
-  goToNextStep?: (step: Step) => void,
+  goToPreviousStep?: (step: StepType) => void,
+  goToNextStep?: (step: StepType) => void,
   onPlanSelect: (planId: SinglePlanType['id']) => void
   avaiablePlans: SinglePlanType[]
   currentPlanId: SinglePlanType['id'] | undefined
