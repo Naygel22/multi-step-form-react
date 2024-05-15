@@ -6,20 +6,27 @@ import { SingleAddonType, SinglePlanType, StepType } from "../App";
 type PickAddOnsProps = {
   goToPreviousStep?: (step: StepType) => void,
   goToNextStep?: (step: StepType) => void,
-  availableAddons: SingleAddonType[]
-  getVariant: keyof SinglePlanType['price']
-  selectedAddonsId: Array<string> | undefined,
-  currentAddonId: SingleAddonType['id'] | undefined
+  availableAddons: SingleAddonType[],
+  getVariant: keyof SinglePlanType['price'],
+  selectedAddonsId: string[],
+  setSelectedAddonsId: (addons: string[]) => void
 }
 
-export const PickAddOns = ({ goToPreviousStep, goToNextStep, availableAddons, getVariant, selectedAddonsId, currentAddonId }: PickAddOnsProps) => {
+export const PickAddOns = ({ goToPreviousStep, goToNextStep, availableAddons, getVariant, selectedAddonsId, setSelectedAddonsId }: PickAddOnsProps) => {
+
 
   function handleAddonSelect(addonId: string) {
-    selectedAddonsId?.push(addonId)
-    console.log(selectedAddonsId)
+    const isSelected = selectedAddonsId?.find(addon => addon === addonId);
+    if (isSelected) {
+      // Jeżeli addon był już wybrany, usuwamy go z listy
+      const filteredIds = selectedAddonsId?.filter(id => id !== addonId);
+      setSelectedAddonsId(filteredIds);
+    } else {
+      // Jeżeli addon nie był wcześniej wybrany, dodajemy go do listy
+      setSelectedAddonsId([...selectedAddonsId, addonId]);
+    }
+
   }
-
-
   return (
     <div className="stepPage3">
       <SectionHeader
@@ -35,7 +42,7 @@ export const PickAddOns = ({ goToPreviousStep, goToNextStep, availableAddons, ge
             info={addon.description}
             price={getVariant === 'monthly' ? `$${addon.price.monthly}/mo` : `$${addon.price.yearly}/yr`}
             onSelect={() => handleAddonSelect(addon.id)}
-            className={currentAddonId === addon.id ? 'selectedAddon' : ''}
+            className={selectedAddonsId.includes(addon.id) ? 'selectedItem' : ''}
           />
         ))}
       </div>

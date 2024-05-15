@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { Plan, PlanProps } from '../components/Plan'
+import { Plan } from '../components/Plan'
 import { SectionHeader } from '../components/SectionHeader'
 import { ToggleSwitch } from '../components/ToggleSwitch'
 import { Button } from '../components/Button'
@@ -14,6 +13,7 @@ type SelectPlanProps = {
   avaiablePlans: SinglePlanType[]
   currentPlanId: SinglePlanType['id'] | undefined
   selectVariant: (variant: keyof SinglePlanType['price']) => void
+  selectedVariant: keyof SinglePlanType['price']
 }
 
 export type ChosenPlanProps = {
@@ -21,21 +21,21 @@ export type ChosenPlanProps = {
   price: string
 }
 
-export const SelectPlan = ({ goToPreviousStep, goToNextStep, onPlanSelect, avaiablePlans, currentPlanId, selectVariant }: SelectPlanProps) => {
-  const [isChecked, setIsChecked] = useState(true)
-  const [isSelected, setIsSelected] = useState(false)
+export const SelectPlan = ({ goToPreviousStep, goToNextStep, onPlanSelect, avaiablePlans, currentPlanId, selectVariant, selectedVariant }: SelectPlanProps) => {
+  //const [isChecked, setIsChecked] = useState(true)
 
+
+  const isMonthly = () => selectedVariant === 'monthly'
 
   function handleToggleSwitch() {
-    setIsChecked(prev => !prev);
-    const newVariant = isChecked ? 'yearly' : 'monthly';
+
+    const newVariant = isMonthly() ? 'yearly' : 'monthly';
     selectVariant(newVariant);
     console.log(newVariant)
   }
 
   function handlePlanSelect(planId: SinglePlanType['id']) {
     onPlanSelect(planId);
-    setIsSelected(true);
   }
 
   return (
@@ -52,16 +52,16 @@ export const SelectPlan = ({ goToPreviousStep, goToNextStep, onPlanSelect, avaia
             icon={plan.icon}
             className={currentPlanId === plan.id ? 'selectedItem' : ''}
             price={
-              isChecked
+              isMonthly()
                 ? `$${plan.price.monthly}/mo`
                 : `$${plan.price.yearly}/yr`
             }
-            bonus={!isChecked ? '2 months free' : ''}
+            bonus={!isMonthly() ? '2 months free' : ''}
             onSelect={() => handlePlanSelect(plan.id)}
           />
         ))}
       </div>
-      <ToggleSwitch onChange={handleToggleSwitch} />
+      <ToggleSwitch onChange={handleToggleSwitch} selectedVariant={selectedVariant} />
 
       <div className="buttonsArea">
         <Button
@@ -70,7 +70,7 @@ export const SelectPlan = ({ goToPreviousStep, goToNextStep, onPlanSelect, avaia
         >
           Go back
         </Button>
-        <Button onClick={() => isSelected && goToNextStep?.('Addons')}>Next Step</Button>
+        <Button onClick={() => currentPlanId && goToNextStep?.('Addons')}>Next Step</Button>
       </div>
     </div>
   )

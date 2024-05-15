@@ -10,7 +10,7 @@ type AddOnProps = {
 export const AddOn = ({ title, info, price, onSelect, className }: AddOnProps) => {
   return (
     <>
-      <div className={"barItem" + className} onClick={onSelect}>
+      <div className={`barItem ${className}`} onClick={onSelect}>
         <input type="checkbox" className="checkbox" />
         <div className="barText">
           <div className="barTitle">{title}</div>

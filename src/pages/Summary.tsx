@@ -3,11 +3,14 @@ import { Button } from "../components/Button"
 import { SectionHeader } from "../components/SectionHeader"
 
 type SummaryProps = {
-  goToPreviousStep?: (step: StepType) => void,
-  goToNextStep?: (step: StepType) => void,
+  goToPreviousStep?: (step: StepType) => void
+  goToNextStep?: (step: StepType) => void
+  selectedPlanId: string | undefined
+  planPrice: any
+  selectedAddons: string[]
 }
 
-export const Summary = ({ goToPreviousStep, goToNextStep }: SummaryProps) => {
+export const Summary = ({ goToPreviousStep, goToNextStep, selectedPlanId, planPrice, selectedAddons }: SummaryProps) => {
   return (
     <div className="stepPage4">
       <SectionHeader
@@ -15,8 +18,21 @@ export const Summary = ({ goToPreviousStep, goToNextStep }: SummaryProps) => {
         info="Double-check everything looks OK before confirming."
       />
       <div className="summaryBox">
+        <div className="selectedPlan">
+          <div>
+            <div className="selectedPlanTitle">{selectedPlanId}</div>
+            <button className="changeButton" onClick={() => goToPreviousStep?.('Plan')}>Change</button>
+          </div>
+          <div className="selectedMainPrice">{planPrice}</div>
+        </div>
+        <div className="summaryAddons">
+          {selectedAddons.map(addon => (
+            <div key={addon}>{addon}</div>
+          ))}
+        </div>
 
       </div>
+
 
 
       <Button

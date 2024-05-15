@@ -24,7 +24,7 @@ export type SingleAddonType = {
   price: PlanPrice
 }
 
-type PlanPrice = {
+export type PlanPrice = {
   monthly: number,
   yearly: number
 }
@@ -37,9 +37,10 @@ function App() {
   const [selectedPlanId, setSelectedPlanId] = useState<SinglePlanType['id'] | undefined>();
   const [selectedVariant, setSelectedVariant] = useState<keyof SinglePlanType['price']>('monthly')
   // todo: addons
-  const [selectedAddonsId, setSelectedAddonsId] = useState<string[] | undefined>([]);
-  const [avaiablePlans, setAvaiablePlans] = useState<SinglePlanType[]>(ALL_AVAIABLE_PLANS)
-  const [availableAddons, setAvailableAddons] = useState<SingleAddonType[]>(ALL_AVAIABLE_ADDONS)
+  const [selectedAddonsId, setSelectedAddonsId] = useState<string[]>([]);
+  const [selectedAddonId, setSelectedAddonId] = useState<SingleAddonType['id'] | undefined>();
+  const [avaiablePlans] = useState<SinglePlanType[]>(ALL_AVAIABLE_PLANS)
+  const [availableAddons] = useState<SingleAddonType[]>(ALL_AVAIABLE_ADDONS)
 
   const onStepChange = (step: StepType) => {
     setStep(step);
@@ -53,8 +54,23 @@ function App() {
     setSelectedPlanId(planId);
     //console.log(plan)
   };
-  console.log(selectedPlanId)
-  console.log(selectedAddonsId)
+
+  console.log("selectedVariant", selectedVariant)
+
+  const planPrice = (): number | undefined => {
+    const selectedPlan = ALL_AVAIABLE_PLANS.find(plan => plan.id === selectedPlanId);
+    if (selectedPlan) {
+      if (selectedVariant === 'monthly') {
+        console.log(selectedPlan.price.monthly)
+        return selectedPlan.price.monthly;
+      } else if (selectedVariant === 'yearly') {
+        console.log(selectedPlan.price.yearly)
+        return selectedPlan.price.yearly;
+      }
+    }
+    return undefined;
+  };
+
 
   return (
     <div className="app">
@@ -69,19 +85,24 @@ function App() {
         goToNextStep={onStepChange}
         onPlanSelect={onPlanSelect}
         avaiablePlans={avaiablePlans}
-        selectVariant={setSelectedVariant} />}
+        selectVariant={setSelectedVariant}
+        selectedVariant={selectedVariant} />}
       {step === 'Addons' && <PickAddOns
         goToPreviousStep={onStepChange}
         goToNextStep={onStepChange}
         availableAddons={availableAddons}
         getVariant={selectedVariant}
         selectedAddonsId={selectedAddonsId}
-        currentAddonId={selectedAddonsId} />}
+        setSelectedAddonsId={setSelectedAddonsId} />}
       {step === 'Summary' && <Summary
         goToPreviousStep={onStepChange}
-        goToNextStep={onStepChange} />}
+        goToNextStep={onStepChange}
+        selectedPlanId={selectedPlanId}
+        planPrice={planPrice}
+        selectedAddons={selectedAddonsId} />}
       {step === 'EndScreen' && <EndScreen />}
     </div>
+
   );
 }
 
