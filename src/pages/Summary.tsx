@@ -1,6 +1,7 @@
-import { StepType } from "../App"
+import { SinglePlanType, SingleAddonType, StepType } from "../App"
 import { Button } from "../components/Button"
 import { SectionHeader } from "../components/SectionHeader"
+import { ALL_AVAIABLE_ADDONS, ALL_AVAIABLE_PLANS } from "../data"
 
 type SummaryProps = {
   goToPreviousStep?: (step: StepType) => void
@@ -8,9 +9,23 @@ type SummaryProps = {
   selectedPlanId: string | undefined
   planPrice: any
   selectedAddons: string[]
+  getVariant: keyof SinglePlanType['price'],
 }
 
-export const Summary = ({ goToPreviousStep, goToNextStep, selectedPlanId, planPrice, selectedAddons }: SummaryProps) => {
+export const Summary = ({ goToPreviousStep, goToNextStep, selectedPlanId, planPrice, selectedAddons, getVariant }: SummaryProps) => {
+
+  const selectedPlan = ALL_AVAIABLE_PLANS.find(plan => plan.id === selectedPlanId);
+
+  const addonsTotalPrice = selectedAddons.reduce((total, addonId) => {
+    const addon = ALL_AVAIABLE_ADDONS.find(addon => addon.id === addonId);
+    if (addon) {
+      total += addon.price[getVariant];
+    }
+    return total;
+  }, 0);
+
+  const totalPrice = (selectedPlan?.price[getVariant]) + addonsTotalPrice
+
   return (
     <div className="stepPage4">
       <SectionHeader
@@ -23,17 +38,26 @@ export const Summary = ({ goToPreviousStep, goToNextStep, selectedPlanId, planPr
             <div className="selectedPlanTitle">{selectedPlanId}</div>
             <button className="changeButton" onClick={() => goToPreviousStep?.('Plan')}>Change</button>
           </div>
-          <div className="selectedMainPrice">{planPrice}</div>
+          <div className="selectedMainPrice">{planPrice()}</div>
         </div>
         <div className="summaryAddons">
-          {selectedAddons.map(addon => (
-            <div key={addon}>{addon}</div>
-          ))}
-        </div>
+          {selectedAddons.map(addonId => {
+            const addon = ALL_AVAIABLE_ADDONS.find(addon => addon.id === addonId);
+            return addon ? (
+              <div key={addon.id} className="selectedAddOn">
+                <div className="selectedAddOnTitle">{addon.title}</div>
+                <div className="selectedAddOnPrice">{getVariant === 'monthly' ? `$${addon.price[getVariant]}/mo` : `$${addon.price[getVariant]}/yr`}</div>
 
+              </div>
+            ) : null;
+          })}
+        </div>
       </div>
 
-
+      <div className="totalSumBar">
+        <div className="totalText">Total {getVariant === 'monthly' ? '(per month)' : '(per year)'}</div>
+        <div className="totalPrice">{getVariant === 'monthly' ? `$${totalPrice}/mo` : `$${totalPrice}/yr`}</div>
+      </div>
 
       <Button
         className="goBackButton"
@@ -44,8 +68,10 @@ export const Summary = ({ goToPreviousStep, goToNextStep, selectedPlanId, planPr
 
       <Button
         className="confirmButton"
-        onClick={() => goToNextStep?.('EndScreen')}>Confirm</Button>
+        onClick={() => goToNextStep?.('EndScreen')}
+      >
+        Confirm
+      </Button>
     </div>
-
   )
 }

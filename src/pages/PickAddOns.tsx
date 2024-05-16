@@ -43,6 +43,7 @@ export const PickAddOns = ({ goToPreviousStep, goToNextStep, availableAddons, ge
             price={getVariant === 'monthly' ? `$${addon.price.monthly}/mo` : `$${addon.price.yearly}/yr`}
             onSelect={() => handleAddonSelect(addon.id)}
             className={selectedAddonsId.includes(addon.id) ? 'selectedItem' : ''}
+            checked={selectedAddonsId.includes(addon.id) ? true : false}
           />
         ))}
       </div>

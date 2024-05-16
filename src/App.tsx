@@ -1,4 +1,3 @@
-// App.tsx
 import { useState } from "react";
 import { SideBar } from "./components/SideBar";
 import { PersonalInfo } from "./pages/PersonalInfo";
@@ -57,15 +56,15 @@ function App() {
 
   console.log("selectedVariant", selectedVariant)
 
-  const planPrice = (): number | undefined => {
+  const planPrice = (): string | undefined => {
     const selectedPlan = ALL_AVAIABLE_PLANS.find(plan => plan.id === selectedPlanId);
     if (selectedPlan) {
       if (selectedVariant === 'monthly') {
         console.log(selectedPlan.price.monthly)
-        return selectedPlan.price.monthly;
+        return `$${selectedPlan.price.monthly}/mo`;
       } else if (selectedVariant === 'yearly') {
         console.log(selectedPlan.price.yearly)
-        return selectedPlan.price.yearly;
+        return `$${selectedPlan.price.yearly}/yr`;
       }
     }
     return undefined;
@@ -99,7 +98,8 @@ function App() {
         goToNextStep={onStepChange}
         selectedPlanId={selectedPlanId}
         planPrice={planPrice}
-        selectedAddons={selectedAddonsId} />}
+        selectedAddons={selectedAddonsId}
+        getVariant={selectedVariant} />}
       {step === 'EndScreen' && <EndScreen />}
     </div>
 
