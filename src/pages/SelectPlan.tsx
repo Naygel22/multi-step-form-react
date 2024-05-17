@@ -22,8 +22,6 @@ export type ChosenPlanProps = {
 }
 
 export const SelectPlan = ({ goToPreviousStep, goToNextStep, onPlanSelect, avaiablePlans, currentPlanId, selectVariant, selectedVariant }: SelectPlanProps) => {
-  //const [isChecked, setIsChecked] = useState(true)
-
 
   const isMonthly = () => selectedVariant === 'monthly'
 
@@ -31,7 +29,6 @@ export const SelectPlan = ({ goToPreviousStep, goToNextStep, onPlanSelect, avaia
 
     const newVariant = isMonthly() ? 'yearly' : 'monthly';
     selectVariant(newVariant);
-    console.log(newVariant)
   }
 
   function handlePlanSelect(planId: SinglePlanType['id']) {

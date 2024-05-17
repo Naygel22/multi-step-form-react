@@ -6,10 +6,10 @@ import {
 import { TextInput } from '../components/forms/TextInput'
 import { Button } from '../components/Button'
 import { SectionHeader } from '../components/SectionHeader'
-import { Step } from '../App'
+import { StepType } from '../App'
 
 type PersonalInfoProps = {
-  setNextStep: (nextStep: Step) => void
+  setNextStep: (nextStep: StepType) => void
   setUserData: (userData: PersonalInfoValues) => void
   initialUserData: PersonalInfoValues | undefined
 }
@@ -27,7 +27,6 @@ export const PersonalInfo = ({
     },
     validationSchema: personalInfoSchema,
     onSubmit: (values) => {
-      console.log(values, null, 2)
       setUserData(values)
       setNextStep('Plan')
     }
@@ -52,8 +51,9 @@ export const PersonalInfo = ({
           label="Phone Number"
         />
       </div>
-      <Button>Next Step</Button>
-      {/* <button type="submit" className="nextStepButton">Next Step</button> */}
+      <div className='buttonsArea'>
+        <Button>Next Step</Button>
+      </div>
     </form>
   )
 }

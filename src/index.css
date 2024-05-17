@@ -66,6 +66,7 @@ body {
 .endScreen {
   padding-left: 70px;
   padding-top: 40px;
+  position: relative;
 }
 
 .endScreen {
@@ -141,9 +142,12 @@ form label {
 }
 
 .buttonsArea {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-top: 70px;
+  padding-bottom: 20px;
 }
 
 .nextStepButton {
@@ -156,6 +160,8 @@ form label {
   font-size: 15px;
   font-weight: 500;
   cursor: pointer;
+  margin-right: 70px;
+  margin-left: auto;
 }
 
 .nextStepButton:hover {
@@ -324,7 +330,7 @@ input:checked+.slider:before {
   display: flex;
   align-items: center;
   padding: 20px;
-  width: 435px;
+  width: 450px;
   margin-bottom: 15px;
   cursor: pointer;
 }

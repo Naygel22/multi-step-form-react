@@ -59,19 +59,22 @@ export const Summary = ({ goToPreviousStep, goToNextStep, selectedPlanId, planPr
         <div className="totalPrice">{getVariant === 'monthly' ? `$${totalPrice}/mo` : `$${totalPrice}/yr`}</div>
       </div>
 
-      <Button
-        className="goBackButton"
-        onClick={() => goToPreviousStep?.('Addons')}
-      >
-        Go back
-      </Button>
+      <div className="buttonsArea">
 
-      <Button
-        className="confirmButton"
-        onClick={() => goToNextStep?.('EndScreen')}
-      >
-        Confirm
-      </Button>
+        <Button
+          className="goBackButton"
+          onClick={() => goToPreviousStep?.('Addons')}
+        >
+          Go back
+        </Button>
+
+        <Button
+          className="confirmButton"
+          onClick={() => goToNextStep?.('EndScreen')}
+        >
+          Confirm
+        </Button>
+      </div>
     </div>
   )
 }

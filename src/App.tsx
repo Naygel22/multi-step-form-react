@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { SideBar } from "./components/SideBar";
 import { PersonalInfo } from "./pages/PersonalInfo";
-import { ChosenPlanProps, SelectPlan } from "./pages/SelectPlan";
+import { SelectPlan } from "./pages/SelectPlan";
 import { PickAddOns } from "./pages/PickAddOns";
 import { PersonalInfoValues } from "./validators/validators";
-import { PlanProps } from "./components/Plan";
 import { ALL_AVAIABLE_ADDONS, ALL_AVAIABLE_PLANS } from "./data";
 import { Summary } from "./pages/Summary";
 import { EndScreen } from "./pages/EndScreen";
@@ -35,9 +34,8 @@ function App() {
   const [userData, setUserData] = useState<PersonalInfoValues | undefined>();
   const [selectedPlanId, setSelectedPlanId] = useState<SinglePlanType['id'] | undefined>();
   const [selectedVariant, setSelectedVariant] = useState<keyof SinglePlanType['price']>('monthly')
-  // todo: addons
+
   const [selectedAddonsId, setSelectedAddonsId] = useState<string[]>([]);
-  const [selectedAddonId, setSelectedAddonId] = useState<SingleAddonType['id'] | undefined>();
   const [avaiablePlans] = useState<SinglePlanType[]>(ALL_AVAIABLE_PLANS)
   const [availableAddons] = useState<SingleAddonType[]>(ALL_AVAIABLE_ADDONS)
 
@@ -51,19 +49,15 @@ function App() {
 
   const onPlanSelect = (planId: SinglePlanType['id']) => {
     setSelectedPlanId(planId);
-    //console.log(plan)
-  };
 
-  console.log("selectedVariant", selectedVariant)
+  };
 
   const planPrice = (): string | undefined => {
     const selectedPlan = ALL_AVAIABLE_PLANS.find(plan => plan.id === selectedPlanId);
     if (selectedPlan) {
       if (selectedVariant === 'monthly') {
-        console.log(selectedPlan.price.monthly)
         return `$${selectedPlan.price.monthly}/mo`;
       } else if (selectedVariant === 'yearly') {
-        console.log(selectedPlan.price.yearly)
         return `$${selectedPlan.price.yearly}/yr`;
       }
     }
@@ -73,7 +67,7 @@ function App() {
 
   return (
     <div className="app">
-      <SideBar />
+      <SideBar currentStep={step} />
       {step === 'PersonalInfo' && <PersonalInfo
         initialUserData={userData}
         setNextStep={onStepChange}
