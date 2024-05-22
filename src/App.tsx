@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { SideBar } from "./components/SideBar";
-import { PersonalInfo } from "./pages/PersonalInfo";
+import { PersonalInfo } from "./pages/PersonalInfo/PersonalInfo";
 import { SelectPlan } from "./pages/SelectPlan";
 import { PickAddOns } from "./pages/PickAddOns";
 import { PersonalInfoValues } from "./validators/validators";
@@ -52,16 +52,12 @@ function App() {
 
   };
 
+  // lepsza nazwa -> getPlanPrice
   const planPrice = (): string | undefined => {
     const selectedPlan = ALL_AVAIABLE_PLANS.find(plan => plan.id === selectedPlanId);
-    if (selectedPlan) {
-      if (selectedVariant === 'monthly') {
-        return `$${selectedPlan.price.monthly}/mo`;
-      } else if (selectedVariant === 'yearly') {
-        return `$${selectedPlan.price.yearly}/yr`;
-      }
-    }
-    return undefined;
+    if (!selectedPlan) return;
+
+    return selectedVariant === 'monthly' ? `$${selectedPlan.price.monthly}/mo` : `$${selectedPlan.price.yearly}/yr`
   };
 
 

@@ -8,10 +8,10 @@ type SideBarProps = {
 export const SideBar = ({ currentStep }: SideBarProps) => {
   return (
     <div className="sideBar">
-      <Step number={1} info="YOUR INFO" classNameOnSelectedStep={currentStep === 'PersonalInfo' ? 'selectedCircle' : ''} />
-      <Step number={2} info="SELECT PLAN" classNameOnSelectedStep={currentStep === 'Plan' ? 'selectedCircle' : ''} />
-      <Step number={3} info="ADD-ONS" classNameOnSelectedStep={currentStep === 'Addons' ? 'selectedCircle' : ''} />
-      <Step number={4} info="SUMMARY" classNameOnSelectedStep={currentStep === 'Summary' ? 'selectedCircle' : ''} />
+      <Step number={1} info="YOUR INFO" isSelected={currentStep === 'PersonalInfo'} />
+      <Step number={2} info="SELECT PLAN" isSelected={currentStep === 'Plan'} />
+      <Step number={3} info="ADD-ONS" isSelected={currentStep === 'Addons'} />
+      <Step number={4} info="SUMMARY" isSelected={currentStep === 'Summary'} />
     </div>
   )
 }

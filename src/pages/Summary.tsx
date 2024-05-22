@@ -24,7 +24,8 @@ export const Summary = ({ goToPreviousStep, goToNextStep, selectedPlanId, planPr
     return total;
   }, 0);
 
-  const totalPrice = (selectedPlan?.price[getVariant]) + addonsTotalPrice
+  const variantPrice = selectedPlan?.price[getVariant] || 0
+  const totalPrice = variantPrice + addonsTotalPrice
 
   return (
     <div className="stepPage4">
@@ -49,7 +50,7 @@ export const Summary = ({ goToPreviousStep, goToNextStep, selectedPlanId, planPr
                 <div className="selectedAddOnPrice">{getVariant === 'monthly' ? `$${addon.price[getVariant]}/mo` : `$${addon.price[getVariant]}/yr`}</div>
 
               </div>
-            ) : null;
+            ) : <></>;
           })}
         </div>
       </div>

@@ -2,17 +2,12 @@ import { useFormik } from 'formik'
 import {
   PersonalInfoValues,
   personalInfoSchema
-} from '../validators/validators'
-import { TextInput } from '../components/forms/TextInput'
-import { Button } from '../components/Button'
-import { SectionHeader } from '../components/SectionHeader'
-import { StepType } from '../App'
+} from '../../validators/validators'
+import { TextInput } from '../../components/forms/TextInput'
+import { Button } from '../../components/Button'
+import { SectionHeader } from '../../components/SectionHeader'
+import { PersonalInfoProps } from '../PersonalInfo/PersonalInfo.types'
 
-type PersonalInfoProps = {
-  setNextStep: (nextStep: StepType) => void
-  setUserData: (userData: PersonalInfoValues) => void
-  initialUserData: PersonalInfoValues | undefined
-}
 
 export const PersonalInfo = ({
   setNextStep,
