@@ -1,4 +1,4 @@
-import { SinglePlanType, SingleAddonType, StepType } from "../App"
+import { SinglePlanType, StepType } from "../App"
 import { Button } from "../components/Button"
 import { SectionHeader } from "../components/SectionHeader"
 import { ALL_AVAIABLE_ADDONS, ALL_AVAIABLE_PLANS } from "../data"
